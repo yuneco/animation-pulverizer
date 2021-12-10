@@ -1,4 +1,4 @@
-import { HIT_CLASS, TARGET_CLASS } from "./consts"
+import { HIT_CLASS, NOISE_FILTER_ID, TARGET_CLASS } from "./consts"
 import { isHTMLOrSvgElement } from "./isHTMLOrSvgElement"
 
 export type ElState = 'target' | 'hit' | 'wait'
@@ -30,8 +30,8 @@ const makeHit = (el: HTMLElement | SVGElement) => {
   el.classList.remove(TARGET_CLASS)
   el.classList.add(HIT_CLASS)
   el.animate([
-    { opacity: el.style.opacity, transform: 'scale(1)', filter: 'blur(0)' },
-    { opacity: 0, transform: 'scale(1.5)', filter: 'blur(10px)' },
+    { opacity: el.style.opacity, transform: 'scale(0.8)', filter: `blur(0) url('#${NOISE_FILTER_ID}')` },
+    { opacity: 0, transform: 'scale(1.5)', filter: `blur(10px) url('#${NOISE_FILTER_ID}')` },
   ],
   {
     fill: 'forwards',

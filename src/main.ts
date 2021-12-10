@@ -3,6 +3,7 @@ import { elementsFromPoint } from './logics/elementsFromPoint'
 import { changeElState, } from './logics/changeElState'
 import { watchAllAnimatiedElements } from './logics/watchAllAnimatiedElements'
 import './style.css'
+import { initSvgFilter } from './logics/initSvgFilter'
 
 let isActivated = false
 
@@ -11,6 +12,7 @@ const main = () => {
   if (isActivated) return
   isActivated = true
   console.log('🔫GAME START!')
+  initSvgFilter()
   let movingElems: AnimatableElement[] = []
 
   watchAllAnimatiedElements((added, removed, all) => {
