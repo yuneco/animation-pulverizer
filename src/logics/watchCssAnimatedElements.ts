@@ -21,7 +21,7 @@ export const watchCssAnimatedElements = (onChanged: ListChangeHandler<HTMLElemen
       type: 'transition'
     } as const
     entries.push(ent)
-    console.log('transition start', entries)
+    // console.log('transition start', entries)
     return ent
   }
 
@@ -33,7 +33,7 @@ export const watchCssAnimatedElements = (onChanged: ListChangeHandler<HTMLElemen
       type: 'animation'
     } as const
     entries.push(ent)
-    console.log('animation start', ent)
+    // console.log('animation start', ent)
     return ent
   }
 

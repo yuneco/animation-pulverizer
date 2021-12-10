@@ -6,3 +6,13 @@
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.animatedClickTarget {
+  outline: 2px solid red !important;
+}
+.animatedClickTargetBefore::before {
+  outline: 2px solid red !important;
+}
+.animatedClickTargetAfter::after {
+  outline: 2px solid red !important;
+}
