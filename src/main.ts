@@ -1,35 +1,37 @@
+import { AnimatableElement } from './logics/AnimatableElement'
 import { elementsFromPoint } from './logics/elementsFromPoint'
+import { changeElState, } from './logics/changeElState'
 import { watchAllAnimatiedElements } from './logics/watchAllAnimatiedElements'
 import './style.css'
 
-const TARGET_CLASS = 'animatedClickTarget'
+let isActivated = false
+
 
 const main = () => {
-  let movingElems: (HTMLElement | SVGElement)[] = []
+  if (isActivated) return
+  isActivated = true
+  console.log('🔫GAME START!')
+  let movingElems: AnimatableElement[] = []
 
   watchAllAnimatiedElements((added, removed, all) => {
     movingElems = [...all]
-    added.map(el => {
-      el.classList.add(TARGET_CLASS)
+    added.map(element => {
+      changeElState(element.el, 'target')
     })
-    removed.map(el => {
-      el.classList.remove(TARGET_CLASS)
+    removed.map(element => {
+      changeElState(element.el, 'wait')
     })
   })
 
   document.body.addEventListener('pointerdown', (ev) => {
-    const els = elementsFromPoint(ev.clientX, ev.clientY).filter(el => movingElems.includes(el))
-    els.forEach(el => {
-      el.style.outline = '2px solid blue'
-      el.animate([
-        { opacity: el.style.opacity, transform: 'scale(1)', filter: 'blur(0)' },
-        { opacity: 0, transform: 'scale(1.3)', filter: 'blur(10px)' },
-      ],
-      {
-        fill: 'forwards',
-        duration: 2000
-      })
-    })    
+    const elsAtPoint = elementsFromPoint(ev.clientX, ev.clientY)
+    const elsMoving = movingElems.map(element => element.el)
+    const els = elsAtPoint.filter(el => elsMoving.includes(el))
+    els.forEach(el => changeElState(el, 'hit'))
+    if (els.length) {
+      ev.preventDefault()
+      ev.cancelBubble = true
+    }   
   })
 }
 

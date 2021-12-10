@@ -1,62 +1,71 @@
-import { isHTMLOrSvgElement } from "./isHTMLOrSvgElement"
-import { ListChangeHandler } from "./ListChangedHandler"
+import { AnimatableElement } from './AnimatableElement'
+import { ANIM_PROP_NAMES } from './AnimationPropName'
+import { elState } from './changeElState'
+import { isHTMLOrSvgElement } from './isHTMLOrSvgElement'
+import { ListChangeHandler } from './ListChangedHandler'
 
 type AnimationEntry = {
-  el: HTMLElement | SVGElement,
-  prop: string,
+  element: AnimatableElement
+  prop: string
   type: 'transition' | 'animation'
 }
 
-const isIgnoreEvent = (ev: TransitionEvent) => ev.propertyName.includes('outline')
+const shouldIgnoreTransition = (ev: TransitionEvent) =>
+  !(ANIM_PROP_NAMES as readonly string[]).includes(ev.propertyName)
 
 const entries: AnimationEntry[] = []
-export const watchCssAnimatedElements = (onChanged: ListChangeHandler<HTMLElement | SVGElement>) => {
 
-  const onstartTransition = (ev: TransitionEvent): AnimationEntry | undefined => {
-    if (!isHTMLOrSvgElement(ev.target)) return
-    if (isIgnoreEvent(ev)) return
-    const ent = {
-      el: ev.target,
-      prop: ev.propertyName,
-      type: 'transition'
-    } as const
-    entries.push(ent)
-    // console.log('transition start', entries)
-    return ent
+const createEntry = (
+  ev: TransitionEvent | AnimationEvent
+): AnimationEntry | undefined => {
+  if (!isHTMLOrSvgElement(ev.target)) return
+  return {
+    element: { el: ev.target, pseudo: ev.pseudoElement },
+    prop: ev instanceof TransitionEvent ? ev.propertyName : ev.animationName,
+    type: ev instanceof TransitionEvent ? 'transition' : 'animation',
   }
+}
 
-  const onstartAnimation = (ev: AnimationEvent): AnimationEntry | undefined => {
-    if (!isHTMLOrSvgElement(ev.target)) return
-    const ent = {
-      el: ev.target,
-      prop: ev.animationName,
-      type: 'animation'
-    } as const
-    entries.push(ent)
-    // console.log('animation start', ent)
-    return ent
-  }
+const isSameEntry = (e1: AnimationEntry, e2: AnimationEntry) =>
+  e1.element.el === e2.element.el &&
+  e1.element.pseudo === e2.element.pseudo &&
+  e1.prop === e2.prop &&
+  e1.type === e2.type
 
+export const watchCssAnimatedElements = (
+  onChanged: ListChangeHandler<AnimatableElement>
+) => {
   const onstart = (ev: TransitionEvent | AnimationEvent) => {
-    const added = ev instanceof TransitionEvent ? onstartTransition(ev) : onstartAnimation(ev)
-    if (!added) return
-    onChanged([added.el], [], entries.map(ent => ent.el))
+    if (!isHTMLOrSvgElement(ev.target)) return
+    if (ev instanceof TransitionEvent && shouldIgnoreTransition(ev)) return
+    if (elState(ev.target) !== 'wait') return
+    const ent = createEntry(ev)
+    if (!ent) return
+    entries.push(ent)
+    onChanged(
+      [ent.element],
+      [],
+      entries.map((ent) => ent.element)
+    )
   }
 
   const onend = (ev: TransitionEvent | AnimationEvent) => {
-    const type = ev instanceof TransitionEvent ? 'transition' : 'animation'
-    const prop = ev instanceof TransitionEvent ? ev.propertyName : ev.animationName
-    if (ev instanceof TransitionEvent && isIgnoreEvent(ev)) return
-    const index = entries.findIndex(ent => ent.el === ev.target && ent.prop === prop && ent.type === type)
+    if (ev instanceof TransitionEvent && shouldIgnoreTransition(ev)) return
+    const entEnd = createEntry(ev)
+    if (!entEnd) return
+    const index = entries.findIndex((ent) => isSameEntry(ent, entEnd))
     if (index === -1) return
     const removed = entries.splice(index, 1)[0]
     if (!removed) return
-    onChanged([], [removed.el], entries.map(ent => ent.el))
+    onChanged(
+      [],
+      [removed.element],
+      entries.map((ent) => ent.element)
+    )
   }
 
   document.body.addEventListener('transitionstart', onstart)
   document.body.addEventListener('transitionend', onend)
   document.body.addEventListener('animationstart', onstart)
   document.body.addEventListener('animationend', onend)
-
 }

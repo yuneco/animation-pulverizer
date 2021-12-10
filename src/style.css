@@ -7,12 +7,12 @@
   margin-top: 60px;
 }
 
-.animatedClickTarget {
+.animation-pulverizer_animatedClickTarget {
   outline: 2px solid red !important;
+  border: 1px solid red !important;
 }
-.animatedClickTargetBefore::before {
-  outline: 2px solid red !important;
-}
-.animatedClickTargetAfter::after {
-  outline: 2px solid red !important;
+.animation-pulverizer_animatedClickHit {
+  outline: 2px solid blue !important;
+  border: 1px solid blue !important;
+  pointer-events: none !important;
 }

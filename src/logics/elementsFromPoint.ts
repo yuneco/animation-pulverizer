@@ -23,8 +23,8 @@ export const elementsFromPoint = (
     current = document.elementFromPoint(x, y)
   }
 
-  rollbackList.forEach(ent => (ent.el.style.pointerEvents = ent.pointerEvents))
-
-  console.log(results)
+  rollbackList.forEach(
+    (ent) => (ent.el.style.pointerEvents = ent.pointerEvents)
+  )
   return results
 }
