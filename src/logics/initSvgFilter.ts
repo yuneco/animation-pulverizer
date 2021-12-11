@@ -1,4 +1,4 @@
-import { NOISE_FILTER_ID } from "./defs/consts"
+import { NOISE_FILTER_ID } from './defs/consts'
 
 const svgText = (id: string) => `
 <filter id='${id}' x='0%' y='0%' width='110%' height='110%'>

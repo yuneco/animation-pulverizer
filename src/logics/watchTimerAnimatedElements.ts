@@ -35,8 +35,11 @@ const getAnimationProps = (
   return Object.fromEntries(ps) as { [key in AnimationPropName]: string }
 }
 
-const isPropChanged = (p1: AnimationEntry['props'], p2: AnimationEntry['props']) => {
-  return ANIM_PROP_NAMES.some(name => p1[name] !== p2[name])
+const isPropChanged = (
+  p1: AnimationEntry['props'],
+  p2: AnimationEntry['props']
+) => {
+  return ANIM_PROP_NAMES.some((name) => p1[name] !== p2[name])
 }
 
 const createEntry = (
