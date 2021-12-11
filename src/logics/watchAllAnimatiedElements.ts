@@ -1,5 +1,5 @@
-import { AnimatableElement } from './AnimatableElement'
-import { ListChangeHandler } from './ListChangedHandler'
+import { AnimatableElement } from './defs/AnimatableElement'
+import { ListChangeHandler } from './utils/ListChangedHandler'
 import { watchCssAnimatedElements } from './watchCssAnimatedElements'
 import { watchTimerAnimatedElements } from './watchTimerAnimatedElements'
 

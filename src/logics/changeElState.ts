@@ -1,5 +1,5 @@
-import { HIT_CLASS, NOISE_FILTER_ID, TARGET_CLASS } from "./consts"
-import { isHTMLOrSvgElement } from "./isHTMLOrSvgElement"
+import { HIT_CLASS, NOISE_FILTER_ID, TARGET_CLASS } from "./defs/consts"
+import { isHTMLOrSvgElement } from "./utils/isHTMLOrSvgElement"
 
 export type ElState = 'target' | 'hit' | 'wait'
 

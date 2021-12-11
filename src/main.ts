@@ -1,42 +1,5 @@
-import { AnimatableElement } from './logics/AnimatableElement'
-import { elementsFromPoint } from './logics/elementsFromPoint'
-import { changeElState, } from './logics/changeElState'
-import { watchAllAnimatiedElements } from './logics/watchAllAnimatiedElements'
-import './style.css'
-import { initSvgFilter } from './logics/initSvgFilter'
-
-let isActivated = false
-
-
-const main = () => {
-  if (isActivated) return
-  isActivated = true
-  console.log('🔫GAME START!')
-  initSvgFilter()
-  let movingElems: AnimatableElement[] = []
-
-  watchAllAnimatiedElements((added, removed, all) => {
-    movingElems = [...all]
-    added.map(element => {
-      changeElState(element.el, 'target')
-    })
-    removed.map(element => {
-      changeElState(element.el, 'wait')
-    })
-  })
-
-  document.body.addEventListener('pointerdown', (ev) => {
-    const elsAtPoint = elementsFromPoint(ev.clientX, ev.clientY)
-    const elsMoving = movingElems.map(element => element.el)
-    const els = elsAtPoint.filter(el => elsMoving.includes(el))
-    els.forEach(el => changeElState(el, 'hit'))
-    if (els.length) {
-      ev.preventDefault()
-      ev.cancelBubble = true
-    }   
-  })
-}
+import { initApp } from './app'
 
 chrome.runtime.onMessage.addListener((message: { action: string }) => {
-  if (message.action === 'activate') main()
+  if (message.action === 'activate') initApp()
 })

@@ -1,7 +1,7 @@
 import { elState } from './changeElState'
-import { diffArray } from './diffArray'
-import { isHTMLOrSvgElement } from './isHTMLOrSvgElement'
-import { ListChangeHandler } from './ListChangedHandler'
+import { diffArray } from './utils/diffArray'
+import { isHTMLOrSvgElement } from './utils/isHTMLOrSvgElement'
+import { ListChangeHandler } from './utils/ListChangedHandler'
 
 type HTMLOrSVGElement = HTMLElement | SVGElement
 const ANIM_PROP_NAMES = [

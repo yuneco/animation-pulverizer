@@ -1,8 +1,8 @@
-import { AnimatableElement } from './AnimatableElement'
-import { ANIM_PROP_NAMES } from './AnimationPropName'
+import { AnimatableElement } from './defs/AnimatableElement'
+import { ANIM_PROP_NAMES } from './defs/AnimationPropName'
 import { elState } from './changeElState'
-import { isHTMLOrSvgElement } from './isHTMLOrSvgElement'
-import { ListChangeHandler } from './ListChangedHandler'
+import { isHTMLOrSvgElement } from './utils/isHTMLOrSvgElement'
+import { ListChangeHandler } from './utils/ListChangedHandler'
 
 type AnimationEntry = {
   element: AnimatableElement
