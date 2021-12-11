@@ -1,9 +1,0 @@
-.animation-pulverizer_animatedClickTarget {
-  outline: 2px solid red !important;
-  border: 1px solid red !important;
-}
-.animation-pulverizer_animatedClickHit {
-  outline: 2px solid blue !important;
-  border: 1px solid blue !important;
-  pointer-events: none !important;  
-}

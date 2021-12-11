@@ -1,4 +1,5 @@
 import { elState } from './changeElState'
+import { IGNORE_CLASS } from './defs/consts'
 import { diffArray } from './utils/diffArray'
 import { isHTMLOrSvgElement } from './utils/isHTMLOrSvgElement'
 import { ListChangeHandler } from './utils/ListChangedHandler'
@@ -65,6 +66,7 @@ const removeEntry = (el: HTMLOrSVGElement): AnimationEntry | undefined => {
 }
 
 const onStyleChanged = (el: HTMLOrSVGElement) => {
+  if (el.classList.contains(IGNORE_CLASS)) return
   const oldEnt = getEntry(el)
   const ent = createEntry(el, oldEnt)
   if (!ent) return

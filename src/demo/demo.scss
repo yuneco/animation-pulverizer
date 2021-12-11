@@ -24,13 +24,22 @@
   height: 100vh;
   flex-direction: column;
   justify-content: space-around;
-  .title {
-    color: #999;
+  color: #999;
+  .name {
+    font-weight: bold;
+    font-size: 2vw;
+    margin: 0;
+  }
+  .about {
+    font-size: 1.5vw;
+    padding-top: 8px;
+  }
+  .description {
     font-weight: bold;
     font-size: 8vw;
+    padding-top: 16px;
   }
   .arrow {
-    color: #999;
     font-weight: bold;
     font-size: 8vw;
   }

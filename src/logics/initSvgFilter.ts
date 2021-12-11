@@ -3,7 +3,7 @@ import { NOISE_FILTER_ID } from './defs/consts'
 const svgText = (id: string) => `
 <filter id='${id}' x='0%' y='0%' width='110%' height='110%'>
   <feTurbulence type="turbulence" baseFrequency="0.2 0.2" result="NOISE" numOctaves="2" />
-  <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="8" xChannelSelector="R" yChannelSelector="R"></feDisplacementMap>
+  <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="16" xChannelSelector="R" yChannelSelector="R"></feDisplacementMap>
 </filter>
 `
 

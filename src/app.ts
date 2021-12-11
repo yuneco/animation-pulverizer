@@ -2,7 +2,7 @@ import { AnimatableElement } from './logics/defs/AnimatableElement'
 import { elementsFromPoint } from './logics/elementsFromPoint'
 import { changeElState } from './logics/changeElState'
 import { watchAllAnimatiedElements } from './logics/watchAllAnimatiedElements'
-import './style.css'
+import './style.scss'
 import { initSvgFilter } from './logics/initSvgFilter'
 
 let isActivated = false

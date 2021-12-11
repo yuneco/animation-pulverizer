@@ -3,6 +3,7 @@ import { ANIM_PROP_NAMES } from './defs/AnimationPropName'
 import { elState } from './changeElState'
 import { isHTMLOrSvgElement } from './utils/isHTMLOrSvgElement'
 import { ListChangeHandler } from './utils/ListChangedHandler'
+import { IGNORE_CLASS } from './defs/consts'
 
 type AnimationEntry = {
   element: AnimatableElement
@@ -10,8 +11,14 @@ type AnimationEntry = {
   type: 'transition' | 'animation'
 }
 
-const shouldIgnoreTransition = (ev: TransitionEvent) =>
-  !(ANIM_PROP_NAMES as readonly string[]).includes(ev.propertyName)
+const shouldIgnoreTransition = (ev: TransitionEvent | AnimationEvent) => {
+  if (!isHTMLOrSvgElement(ev.target)) return true
+  if (ev.target.classList.contains(IGNORE_CLASS)) return true
+  if (ev instanceof TransitionEvent) {
+    if ((ANIM_PROP_NAMES as readonly string[]).includes(ev.propertyName)) return true
+  }
+  return false
+}
 
 const entries: AnimationEntry[] = []
 
@@ -37,7 +44,7 @@ export const watchCssAnimatedElements = (
 ) => {
   const onstart = (ev: TransitionEvent | AnimationEvent) => {
     if (!isHTMLOrSvgElement(ev.target)) return
-    if (ev instanceof TransitionEvent && shouldIgnoreTransition(ev)) return
+    if (shouldIgnoreTransition(ev)) return
     if (elState(ev.target) !== 'wait') return
     const ent = createEntry(ev)
     if (!ent) return
