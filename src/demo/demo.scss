@@ -1,6 +1,11 @@
 * {
   box-sizing: border-box;
 }
+
+body {
+  touch-action: manipulation
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -8,6 +13,10 @@
   text-align: center;
   color: #2c3e50;
   padding: 30px;
+}
+
+a {
+  color: rgb(41, 104, 141);
 }
 
 .stage {
@@ -26,6 +35,7 @@
   justify-content: space-around;
   color: #999;
   .name {
+    width: 100%;
     font-weight: bold;
     font-size: 2vw;
     margin: 0;
@@ -51,11 +61,22 @@
       display: flex;
       justify-content: space-around;
       gap: 8px;
+      .img {
+        max-width: 50%;
+        height: auto;
+        flex-grow: 1;
+      }
     }
     .texts {
       display: flex;
       justify-content: space-around;
       gap: 8px;
+      font-size: 2vw;
+      flex-wrap: wrap;
+      .text {
+        width: 40%;
+        flex-grow: 1;
+      }
     }
   }
   .target {
