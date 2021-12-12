@@ -15,7 +15,7 @@ const shouldIgnoreTransition = (ev: TransitionEvent | AnimationEvent) => {
   if (!isHTMLOrSvgElement(ev.target)) return true
   if (ev.target.classList.contains(IGNORE_CLASS)) return true
   if (ev instanceof TransitionEvent) {
-    if ((ANIM_PROP_NAMES as readonly string[]).includes(ev.propertyName)) return true
+    if (!(ANIM_PROP_NAMES as readonly string[]).includes(ev.propertyName)) return true
   }
   return false
 }
