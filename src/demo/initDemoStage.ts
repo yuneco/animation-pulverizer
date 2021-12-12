@@ -75,7 +75,7 @@ const initIntersection = () => {
         if (!isHTMLOrSvgElement(el)) return
         if (el.classList.contains('show')) return
         setTimeout(() => {
-          el.style.animationDuration = `${randomInt(300, 1200)}ms`
+          el.style.animationDuration = `${randomInt(500, 1600)}ms`
           el.classList.add('show', randomFrom(ANIM_CLASSES))
         }, randomInt(0, 500))
       })
